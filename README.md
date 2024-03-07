@@ -34,6 +34,11 @@ npm run dev
 npm run build
 ```
 
+### Run your built app
+```
+npm run preview
+```
+
 ### Run your unit tests
 ```
 npm run test:unit

@@ -49,5 +49,8 @@ npm run test:unit
 npm run lint
 ```
 
+### Access Application
+Visit [Web App](https://vue-series-50e12.web.app).
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

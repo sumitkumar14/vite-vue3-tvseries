@@ -53,6 +53,7 @@
 </template>
 
 <script setup>
+import '@mdi/font/css/materialdesignicons.css'
 import { ref, watch } from 'vue';
 import { useTvStore } from '@/stores/tvStore'
 import { useRouter } from 'vue-router'

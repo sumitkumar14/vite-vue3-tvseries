@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mx-0 px-0">
+  <v-card class="mx-0 px-0">
     <v-row no-gutters class="text-center">
       <v-col cols="12">
         <v-img alt :src="cast.person.image.medium" />
@@ -15,16 +15,15 @@
       </v-col>
     </v-row>
   </v-card>
-  </template>
+</template>
 
-  <script setup>
-   defineProps({
-     cast: null,
-    });
-  </script>
-  <style scoped>
-  .small-text-size {
-    font-size: 12px;
-  }
-  </style>
-  
+<script setup>
+defineProps({
+  cast: null,
+});
+</script>
+<style scoped>
+.small-text-size {
+  font-size: 12px;
+}
+</style>

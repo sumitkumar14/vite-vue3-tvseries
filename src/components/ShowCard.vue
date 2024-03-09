@@ -10,22 +10,17 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  name: "ShowCard",
-  props: {
+<script setup>
+ import {computed} from 'vue';
+
+  const props = defineProps({
     showInfo: Object
-  },
-  data: () => ({}),
-  computed: {
-    scaleRating: function () {
-      return Number((this.showInfo.rating.average/2).toFixed(1));
-    },
-  },
-  methods: {
-    moveTodetails(id1) {
-      this.$emit("card-click", id1);
-    },
-  },
-};
+  });
+  const emit = defineEmits(['card-click'])
+
+  const scaleRating = computed(()=>Number((props.showInfo.rating.average/2).toFixed(1)));
+
+  function moveTodetails(id1) {
+      emit("card-click", id1);
+    }
 </script>

@@ -16,14 +16,11 @@
     </v-row>
   </v-card>
   </template>
-  
-  <script>
-  export default {
-    name: "CharactorCard",
-    props: {
-        cast: Array
-    },
-  };
+
+  <script setup>
+   defineProps({
+     cast: null,
+    });
   </script>
   <style scoped>
   .small-text-size {

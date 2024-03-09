@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "serve": "vite",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -18,11 +20,13 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/test-utils": "^2.4.4",
     "babel-eslint": "^10.1.0",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
     "vite": "^5.1.4",
     "vite-plugin-vuetify": "^2.0.2",
+    "vitest": "^1.3.1",
     "vue-template-compiler": "^2.6.11"
   }
 }

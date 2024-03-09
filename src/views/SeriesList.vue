@@ -63,6 +63,7 @@ import SeriesService from "@/seriesService/tv-service.js";
 const store = useTvStore()
 const router = useRouter()
 const SeriesService1 = new SeriesService();
+
 const differentGenres = ref([
   { label: "War", filterdShows: [] },
   { label: "Comedy", filterdShows: [] },

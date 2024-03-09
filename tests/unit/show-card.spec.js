@@ -1,12 +1,10 @@
 import { shallowMount } from '@vue/test-utils'
 import ShowCard from '@/components/ShowCard.vue'
-import vuetify from "vuetify"
-import Vue from 'vue';
+import { expect } from 'vitest'
 
 describe('ShowCard.vue', () => {
   let wrapper;
   beforeEach(()=>{
-    Vue.use(vuetify);
     wrapper = shallowMount(ShowCard);
   })
   it('renders a vue instance', () => {

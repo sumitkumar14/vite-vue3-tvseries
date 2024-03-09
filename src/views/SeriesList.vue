@@ -111,7 +111,6 @@ export default {
       ],
       panel:0,
       showsData: [],
-      crimeShows: [],
       SearchedShow: "",
       loading: false,
     };

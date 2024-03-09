@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="px-6 mt-2">
-    <v-row v-if="!loading" no-gutters>
+    <v-row v-if="!store?.loading" no-gutters>
       <div class="d-flex" shrink cols="1">
         <v-btn
           class="mb-0 mr-1"
@@ -187,17 +187,22 @@
     </v-row>
   </v-container>
 </template>
-<script>
+<script setup>
+import {ref, computed} from 'vue';
+import { useTvStore } from '@/stores/tvStore'
+
+// access the `store` variable anywhere in the component ✨
+const store = useTvStore()
+import { useRouter, useRoute } from 'vue-router'
 import SeriesService from "@/seriesService/tv-service.js";
 import ShowCard from "@/components/ShowCard.vue";
 import CharactorCard from "@/components/CharactorCard.vue";
+
+const router = useRouter()
+const route = useRoute()
+
 const SeriesService1 = new SeriesService();
-export default {
-  name: "SeriesDetails",
-  components: { ShowCard, CharactorCard },
-  data() {
-    return {
-      headers: [
+const headers = ref([
         {
           title: "Name",
           align: "start",
@@ -210,83 +215,69 @@ export default {
         { title: "Type", value: "type", sortable: true, },
         { title: "Air Date", value: "airdate", sortable: true, },
         { title: "Ratings", value: "rating.average", sortable: true, },
-      ],
-      showDetails: {},
-      castDetail: [],
-      loading: false,
-      episodes: [],
-      paginateData: [],
-      limitedcastDetail: [],
-      enableViewCastButton: true,
-    };
-  },
-  computed: {
-    seriesId: function () {
-      return this.$route && this.$route.params && this.$route.params.showId
-        ? this.$route.params.showId
-        : "";
-    },
-  },
+      ]);
+const showDetails = ref({});
+const castDetail = ref([]);
+const episodes = ref([]);
+const limitedcastDetail = ref([]);
+const enableViewCastButton = ref(true);
 
-  methods: {
-    backClick() {
-      this.$router.push({ path: "/" });
-    },
+const seriesId = computed(()=>route?.params?.showId);
+
+function backClick() {
+      router.push({ path: "/" });
+}
 
     /* get api call to fetch the episodes of tv series */
-
-    detailsfShow() {
-      this.loading = true;
-      SeriesService1.seriesDetails(this.seriesId)
+function detailsfShow() {
+      store.startLoading();
+      SeriesService1.seriesDetails(seriesId.value)
         .then((response) => {
-          this.showDetails = response.data;
+          showDetails.value = response.data;
         })
         .catch((error) => {
           console.log(error);
         })
         .finally(() => {
-          this.loading = false;
+          store.stopLoading();
         });
-    },
+    };
 
     /* get api call to fetch the casting details of tv series */
 
-    getCastingDetails() {
-      SeriesService1.seriesCastDetails(this.seriesId)
+    function getCastingDetails() {
+      SeriesService1.seriesCastDetails(seriesId.value)
         .then((response) => {
-          this.castDetail = response.data;
-          this.limitedcastDetail = response.data.slice(0, 6);
+          castDetail.value = response.data;
+          limitedcastDetail.value = response.data.slice(0, 6);
         })
         .catch((error) => {
           console.log(error);
         });
-    },
-    viewMoreLessCast() {
-      this.limitedcastDetail = [];
-      this.enableViewCastButton = !this.enableViewCastButton;
-      this.limitedcastDetail = this.enableViewCastButton
-        ? this.castDetail.slice(0, 6)
-        : this.castDetail;
-    },
+    }
+    function viewMoreLessCast() {
+      limitedcastDetail.value = [];
+      enableViewCastButton.value = !enableViewCastButton.value;
+      limitedcastDetail.value = enableViewCastButton.value
+        ? castDetail.value.slice(0, 6)
+        : castDetail.value;
+    }
 
     /* get api call to fetch the episodes of tv series */
 
-    getEpisodes() {
-      SeriesService1.seriesEpisodesDetails(this.seriesId)
+    function getEpisodes() {
+      SeriesService1.seriesEpisodesDetails(seriesId.value)
         .then((response) => {
-          this.episodes = response.data;
+          episodes.value = response.data;
         })
         .catch((error) => {
           console.log(error);
         });
-    },
-  },
-  mounted() {
-    this.detailsfShow();
-    this.getEpisodes();
-    this.getCastingDetails();
-  },
-};
+    }
+
+    detailsfShow();
+    getEpisodes();
+    getCastingDetails();
 </script>
 <style scoped>
 .small-text-size {

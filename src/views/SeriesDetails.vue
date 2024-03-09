@@ -308,8 +308,6 @@ export default {
   justify-content: center;
 }
 .summary-div {
-  /* font-size: 14px; */
-  text-align: justify;
   font-weight: 500;
 }
 .episode-name-col {

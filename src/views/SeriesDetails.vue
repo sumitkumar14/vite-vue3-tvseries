@@ -32,83 +32,73 @@
                   >
                   <v-row no-gutters>
                     <p
-                      v-if="showDetails.network && showDetails.network.country"
+                      v-if="showDetails?.network?.country"
                       class="mx-3"
                     >
                       <b>Country:</b>&nbsp;<span class="show-info-txt">{{
                         showDetails.network.country.name
                       }}</span>
                     </p>
-                    |
                     <p
-                      v-if="showDetails.network && showDetails.network.name"
+                      v-if="showDetails?.network?.name"
                       class="mx-3"
                     >
                       <b>Network:</b>&nbsp;<span class="show-info-txt">{{
                         showDetails.network.name
                       }}</span>
                     </p>
-                    |
                     <p
-                      v-if="showDetails.network && showDetails.network.country"
+                      v-if="showDetails?.network?.country"
                       class="mx-3"
                     >
                       <b>Days:</b>&nbsp;<v-chip
                         class="mr-1"
                         small
                         color="orange"
-                        v-for="(day, i) in showDetails.schedule.days"
+                        v-for="(day, i) in showDetails?.schedule?.days"
                         :key="i"
                         ><b>{{ day }}</b></v-chip
                       >
                     </p>
-                    |
                     <p
-                      v-if="showDetails.network && showDetails.network.country"
+                      v-if="showDetails?.network?.country"
                       class="mx-3"
                     >
                       <b>Time:</b>&nbsp;<span class="show-info-txt">{{
                         showDetails.schedule.time
                       }}</span>
                     </p>
-                    |
                     <p class="mx-3">
                       <b>Language:</b>&nbsp;<span class="show-info-txt">{{
                         showDetails.language
                       }}</span>
                     </p>
-                    |
                     <p class="mx-3">
                       <b>Status:</b>&nbsp;<span class="show-info-txt">{{
                         showDetails.status
                       }}</span>
                     </p>
-                    |
                     <p class="mx-3">
                       <b>Show type:</b>&nbsp;<span class="show-info-txt">{{
                         showDetails.type
                       }}</span>
                     </p>
-                    |
                     <p class="mx-3">
                       <b>Premiered:</b>&nbsp;<span class="show-info-txt">{{
                         showDetails.premiered
                       }}</span>
                     </p>
-                    |
                     <p class="mx-3">
                       <b>Run time:</b>&nbsp;<span class="show-info-txt"
                         >{{ showDetails.runtime }}&nbsp;min</span
                       >
                     </p>
-                    |
                     <p class="mx-3">
                       <b>Official URL :</b>
-                      <a class="url-look" :href="showDetails.officialSite">
+                      <a class="url-look" :href="showDetails?.officialSite">
                         {{ showDetails.officialSite }}</a
                       >
                     </p>
-                    |
                     <p class="mx-3">
                       <b>Genres:&nbsp;</b
                       ><v-chip
@@ -173,22 +163,7 @@
             v-for="(cast, i) in limitedcastDetail"
             :key="i"
           >
-            <v-card class="mx-0 px-0">
-              <v-row no-gutters class="text-center">
-                <v-col cols="12">
-                  <v-img alt :src="cast.person.image.medium" />
-                  <div>
-                    <p class="small-text-size">
-                      <b>{{ cast.person.name }}</b>
-                    </p>
-                    <p class="mt-n4 small-text-size">as</p>
-                    <p class="mt-n4 small-text-size">
-                      <b> {{ cast.character.name }}</b>
-                    </p>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-card>
+          <CharactorCard :cast="cast"/>
           </v-col>
         </v-row>
         <v-col class="pl-0 mt-2" v-if="castDetail.length > 6" cols="12">
@@ -215,10 +190,11 @@
 <script>
 import SeriesService from "@/seriesService/tv-service.js";
 import ShowCard from "@/components/ShowCard.vue";
+import CharactorCard from "@/components/CharactorCard.vue";
 const SeriesService1 = new SeriesService();
 export default {
   name: "SeriesDetails",
-  components: { ShowCard },
+  components: { ShowCard, CharactorCard },
   data() {
     return {
       headers: [
@@ -332,7 +308,9 @@ export default {
   justify-content: center;
 }
 .summary-div {
-  font-size: 14px;
+  /* font-size: 14px; */
+  text-align: justify;
+  font-weight: 500;
 }
 .episode-name-col {
   min-height: 80px;

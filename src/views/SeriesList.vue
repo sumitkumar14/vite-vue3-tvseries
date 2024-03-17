@@ -54,8 +54,9 @@
 
 <script setup>
 import '@mdi/font/css/materialdesignicons.css'
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useTvStore } from '@/stores/tvStore'
+import { debounceSearch } from '@/utils/debounce.js'
 import { useRouter } from 'vue-router'
 import ShowCard from "@/components/ShowCard.vue";
 import SeriesService from "@/seriesService/tv-service.js";
@@ -124,6 +125,7 @@ function getDiffGenresShows() {
     );
 }
 
+
 /* api call on search */
 
 function searchedShowDataFn(val) {
@@ -141,11 +143,12 @@ function searchedShowDataFn(val) {
     });
 }
 watch(SearchedShow, (srch) => {
-  if (srch.length) searchedShowDataFn(srch.length);
+  if (srch.length) debounceSearch(searchedShowDataFn(srch),500);
   else {
     searchedshowsData.value = [];
   }
 })
+onMounted(()=>store.setTvSeriesName(''));
 getTvSeriesData();
 </script>
 <style scoped>

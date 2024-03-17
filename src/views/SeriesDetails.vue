@@ -7,7 +7,6 @@
         </v-btn>
       </div>
       <v-col>
-        <h2 class="mb-2">{{ showDetails.name }}</h2>
         <v-row no-gutters>
           <ShowCard class="mr-4 mb-4" :showInfo="showDetails"> </ShowCard>
           <v-col xs="12" :sm="$vuetify.breakpoint && $vuetify.breakpoint.mobile ? '12' : ''">
@@ -31,7 +30,7 @@
     }}</span>
                     </p>
                     <p v-if="showDetails?.network?.country" class="mx-3">
-                      <b>Days:</b>&nbsp;<v-chip class="mr-1" small color="orange"
+                      <b>Days:</b>&nbsp;<v-chip tile class="mr-1" small color="orange"
                         v-for="(day, i) in showDetails?.schedule?.days" :key="i"><b>{{ day }}</b></v-chip>
                     </p>
                     <p v-if="showDetails?.network?.country" class="mx-3">
@@ -68,7 +67,7 @@
                         {{ showDetails.officialSite }}</a>
                     </p>
                     <p class="mx-3">
-                      <b>Genres:&nbsp;</b><v-chip class="mr-1" small color="orange"
+                      <b>Genres:&nbsp;</b><v-chip tile class="mr-1" text small color="orange"
                         v-for="(genre, i) in showDetails.genres" :key="i"><b>{{ genre }}</b></v-chip>
                     </p>
                   </v-row>
@@ -173,6 +172,7 @@ function detailsfShow() {
   SeriesService1.seriesDetails(seriesId.value)
     .then((response) => {
       showDetails.value = response.data;
+      store.setTvSeriesName(showDetails.value.name);
     })
     .catch((error) => {
       console.log(error);

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="px-4 mt-2">
+  <v-container fluid style="min-width: 90vw;" class="px-2 mt-1">
     <v-row justify="space-around" align-item="center" no-gutters>
       <v-col xs="12" sm="12" md="4">
         <v-text-field outlined v-model="SearchedShow" clear-icon="mdi-close-circle" clearable
@@ -56,7 +56,7 @@
 import '@mdi/font/css/materialdesignicons.css'
 import { ref, watch, onMounted } from 'vue';
 import { useTvStore } from '@/stores/tvStore'
-import { debounceSearch } from '@/utils/debounce.js'
+// import { debounceSearch } from '@/utils/debounce.js'
 import { useRouter } from 'vue-router'
 import ShowCard from "@/components/ShowCard.vue";
 import SeriesService from "@/seriesService/tv-service.js";
@@ -142,8 +142,10 @@ function searchedShowDataFn(val) {
       store.stopLoading();
     });
 }
+
+
 watch(SearchedShow, (srch) => {
-  if (srch.length) debounceSearch(searchedShowDataFn(srch),500);
+  if (srch.length)(searchedShowDataFn(srch));
   else {
     searchedshowsData.value = [];
   }

@@ -1,16 +1,12 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
+import SeriesList from '../views/SeriesList.vue'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Welcome',
-  //   component: import('@/views/Welcome.vue')
-  // },
   {
     path: '/',
     name: 'SeriesList',
-    component: import('@/views/SeriesList.vue')
+    component: SeriesList
   },
   {
     path: '/SeriesDetails/:showId',

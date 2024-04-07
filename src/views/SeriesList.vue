@@ -54,9 +54,8 @@
 
 <script setup>
 import '@mdi/font/css/materialdesignicons.css'
-import { ref, watch, onMounted } from 'vue';
-import { useTvStore } from '@/stores/tvStore'
-// import { debounceSearch } from '@/utils/debounce.js'
+import { ref, watch } from 'vue';
+import { useTvStore } from '@/stores/tvShowsListStore'
 import { useRouter } from 'vue-router'
 import ShowCard from "@/components/ShowCard.vue";
 

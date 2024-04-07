@@ -128,19 +128,19 @@
 </template>
 <script setup>
 import { ref, computed } from 'vue';
-import { useTvStore } from '@/stores/tvShowsListStore'
-import { useRouter, useRoute } from 'vue-router'
-import SeriesService from "@/seriesService/tv-service.js";
+import { useTvStore } from '@/stores/tvShowsListStore';
+import { useTvShowDetailsStore } from '@/stores/tvShowDetailsStore';
+import { useRouter, useRoute } from 'vue-router';
 import ShowCard from "@/components/ShowCard.vue";
 import CharactorCard from "@/components/CharactorCard.vue";
 
 // access the `store` variable anywhere in the component ✨
 
 const store = useTvStore()
+const store1 = useTvShowDetailsStore()
 const router = useRouter()
 const route = useRoute()
 
-const SeriesService1 = new SeriesService();
 const headers = ref([
   {
     title: "Name",
@@ -155,69 +155,31 @@ const headers = ref([
   { title: "Air Date", value: "airdate", sortable: true, },
   { title: "Ratings", value: "rating.average", sortable: true, },
 ]);
-const showDetails = ref({});
-const castDetail = ref([]);
-const episodes = ref([]);
-const limitedcastDetail = ref([]);
 const enableViewCastButton = ref(true);
 
 const seriesId = computed(() => route?.params?.showId);
+const showDetails = computed(() => store1.showDetails);
+const episodes = computed(() => store1.episodes);
+const castDetail = computed(() => store1.castDetail);
+const limitedcastDetail = computed(() => store1.limitedcastDetail);
 
 function backClick() {
   router.push({ path: "/" });
 }
 
-/* get api call to fetch the episodes of tv series */
-function detailsfShow() {
-  store.loading = true;
-  SeriesService1.seriesDetails(seriesId.value)
-    .then((response) => {
-      showDetails.value = response.data;
-      store.tvSeriesName = showDetails.value.name;
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-    .finally(() => {
-      store.loading = false;
-    });
-};
-
-/* get api call to fetch the casting details of tv series */
-
-function getCastingDetails() {
-  SeriesService1.seriesCastDetails(seriesId.value)
-    .then((response) => {
-      castDetail.value = response.data;
-      limitedcastDetail.value = response.data.slice(0, 6);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
 function viewMoreLessCast() {
-  limitedcastDetail.value = [];
+  store1.limitedcastDetail = [];
   enableViewCastButton.value = !enableViewCastButton.value;
-  limitedcastDetail.value = enableViewCastButton.value
+  store1.limitedcastDetail = enableViewCastButton.value
     ? castDetail.value.slice(0, 6)
     : castDetail.value;
 }
 
-/* get api call to fetch the episodes of tv series */
+store1.detailsOfShow(seriesId.value);
 
-function getEpisodes() {
-  SeriesService1.seriesEpisodesDetails(seriesId.value)
-    .then((response) => {
-      episodes.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
+store1.getCastingDetails(seriesId.value);
 
-detailsfShow();
-getEpisodes();
-getCastingDetails();
+store1.getEpisodes(seriesId.value);
 </script>
 <style scoped>
 .small-text-size {

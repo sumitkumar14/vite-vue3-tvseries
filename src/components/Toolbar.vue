@@ -8,7 +8,7 @@
 </template>
 <script setup>
 import { useRouter } from 'vue-router'
-import { useTvStore } from '@/stores/tvStore'
+import { useTvStore } from '@/stores/tvShowsListStore'
 import { computed } from 'vue';
 
 const store = useTvStore();

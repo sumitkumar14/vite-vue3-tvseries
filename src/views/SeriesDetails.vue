@@ -21,13 +21,13 @@
                   <v-row no-gutters>
                     <p v-if="showDetails?.network?.country" class="mx-3">
                       <b>Country:</b>&nbsp;<span class="show-info-txt">{{
-      showDetails.network.country.name
-    }}</span>
+                        showDetails.network.country.name
+                        }}</span>
                     </p>
                     <p v-if="showDetails?.network?.name" class="mx-3">
                       <b>Network:</b>&nbsp;<span class="show-info-txt">{{
-      showDetails.network.name
-    }}</span>
+                        showDetails.network.name
+                        }}</span>
                     </p>
                     <p v-if="showDetails?.network?.country" class="mx-3">
                       <b>Days:</b>&nbsp;<v-chip tile class="mr-1" small color="orange"
@@ -35,28 +35,28 @@
                     </p>
                     <p v-if="showDetails?.network?.country" class="mx-3">
                       <b>Time:</b>&nbsp;<span class="show-info-txt">{{
-      showDetails.schedule.time
-    }}</span>
+                        showDetails.schedule.time
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Language:</b>&nbsp;<span class="show-info-txt">{{
-        showDetails.language
-      }}</span>
+                        showDetails.language
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Status:</b>&nbsp;<span class="show-info-txt">{{
-        showDetails.status
-      }}</span>
+                        showDetails.status
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Show type:</b>&nbsp;<span class="show-info-txt">{{
-        showDetails.type
-      }}</span>
+                        showDetails.type
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Premiered:</b>&nbsp;<span class="show-info-txt">{{
-        showDetails.premiered
-      }}</span>
+                        showDetails.premiered
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Run time:</b>&nbsp;<span class="show-info-txt">{{ showDetails.runtime }}&nbsp;min</span>
@@ -93,10 +93,10 @@
                   <div class="pt-2">
                     <v-icon color="orange" dark> mdi-star </v-icon>
                     {{
-      item.rating.average
-        ? (item.rating.average / 2).toFixed(1)
-        : 0
-    }}/5
+                    item.rating.average
+                    ? (item.rating.average / 2).toFixed(1)
+                    : 0
+                    }}/5
                   </div>
                 </template>
               </v-data-table>
@@ -113,13 +113,14 @@
         </v-row>
         <v-col class="pl-0 mt-2" v-if="castDetail.length > 6" cols="12">
           <v-btn @click="viewMoreLessCast()" class="primary--text" small text type="text"><b>{{
-      enableViewCastButton ? "show more casts..." : "show less casts..."
-    }}</b></v-btn>
+              enableViewCastButton ? "show more casts..." : "show less casts..."
+              }}</b></v-btn>
         </v-col>
       </v-col>
     </v-row>
     <v-row v-else justify="space-between space-around">
       <v-col class="center-text">
+        <v-progress-circular color="primary" :size="70" :width="7" indeterminate></v-progress-circular>
         <h2>Loading in progress ...</h2>
       </v-col>
     </v-row>
@@ -127,19 +128,19 @@
 </template>
 <script setup>
 import { ref, computed } from 'vue';
-import { useTvStore } from '@/stores/tvStore'
-import { useRouter, useRoute } from 'vue-router'
-import SeriesService from "@/seriesService/tv-service.js";
+import { useTvStore } from '@/stores/tvShowsListStore';
+import { useTvShowDetailsStore } from '@/stores/tvShowDetailsStore';
+import { useRouter, useRoute } from 'vue-router';
 import ShowCard from "@/components/ShowCard.vue";
 import CharactorCard from "@/components/CharactorCard.vue";
 
 // access the `store` variable anywhere in the component ✨
 
 const store = useTvStore()
+const store1 = useTvShowDetailsStore()
 const router = useRouter()
 const route = useRoute()
 
-const SeriesService1 = new SeriesService();
 const headers = ref([
   {
     title: "Name",
@@ -154,69 +155,31 @@ const headers = ref([
   { title: "Air Date", value: "airdate", sortable: true, },
   { title: "Ratings", value: "rating.average", sortable: true, },
 ]);
-const showDetails = ref({});
-const castDetail = ref([]);
-const episodes = ref([]);
-const limitedcastDetail = ref([]);
 const enableViewCastButton = ref(true);
 
 const seriesId = computed(() => route?.params?.showId);
+const showDetails = computed(() => store1.showDetails);
+const episodes = computed(() => store1.episodes);
+const castDetail = computed(() => store1.castDetail);
+const limitedcastDetail = computed(() => store1.limitedcastDetail);
 
 function backClick() {
   router.push({ path: "/" });
 }
 
-/* get api call to fetch the episodes of tv series */
-function detailsfShow() {
-  store.startLoading();
-  SeriesService1.seriesDetails(seriesId.value)
-    .then((response) => {
-      showDetails.value = response.data;
-      store.setTvSeriesName(showDetails.value.name);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-    .finally(() => {
-      store.stopLoading();
-    });
-};
-
-/* get api call to fetch the casting details of tv series */
-
-function getCastingDetails() {
-  SeriesService1.seriesCastDetails(seriesId.value)
-    .then((response) => {
-      castDetail.value = response.data;
-      limitedcastDetail.value = response.data.slice(0, 6);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
 function viewMoreLessCast() {
-  limitedcastDetail.value = [];
+  store1.limitedcastDetail = [];
   enableViewCastButton.value = !enableViewCastButton.value;
-  limitedcastDetail.value = enableViewCastButton.value
+  store1.limitedcastDetail = enableViewCastButton.value
     ? castDetail.value.slice(0, 6)
     : castDetail.value;
 }
 
-/* get api call to fetch the episodes of tv series */
+store1.detailsOfShow(seriesId.value);
 
-function getEpisodes() {
-  SeriesService1.seriesEpisodesDetails(seriesId.value)
-    .then((response) => {
-      episodes.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
+store1.getCastingDetails(seriesId.value);
 
-detailsfShow();
-getEpisodes();
-getCastingDetails();
+store1.getEpisodes(seriesId.value);
 </script>
 <style scoped>
 .small-text-size {

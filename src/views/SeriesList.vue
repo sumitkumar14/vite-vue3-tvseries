@@ -7,6 +7,13 @@
           class="pt-0 mt-0"></v-text-field>
       </v-col>
     </v-row>
+    <v-row v-if="store.loading" justify="space-between space-around">
+        <v-col class="center-text">
+          <v-progress-circular color="primary" :size="70" :width="7"  indeterminate></v-progress-circular>
+          <h2>Loading in progress ...</h2>
+        </v-col>
+    </v-row>
+    <div v-else>
     <span v-if="!SearchedShow.length">
       <v-row no-gutters>
         <v-expansion-panels v-model="panel" variant="accordion">
@@ -38,17 +45,13 @@
           <show-card :showInfo="item.show" @card-click="cardClickedEvent" />
         </v-col>
       </v-row>
-      <v-row v-else-if="store.loading" justify="space-between space-around">
-        <v-col class="center-text">
-          <h2>Loading in progress ...</h2>
-        </v-col>
-      </v-row>
       <v-row v-else justify="space-between space-around">
         <v-col class="center-text">
           <h2>No Data Found</h2>
         </v-col>
       </v-row>
     </v-row>
+  </div>
   </v-container>
 </template>
 
@@ -74,12 +77,12 @@ function clearMessage() {
 }
 
 watch(SearchedShow, (srch) => {
-  if (srch.length)(store.searchedShowDataFn(srch));
+  if (srch.length) (store.searchedShowDataFn(srch));
   else {
     store.searchedshowsData = [];
   }
 })
-store.tvSeriesName='';
+store.tvSeriesName = '';
 store.getTvSeriesData();
 </script>
 <style scoped>

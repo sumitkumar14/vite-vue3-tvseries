@@ -21,13 +21,13 @@
                   <v-row no-gutters>
                     <p v-if="showDetails?.network?.country" class="mx-3">
                       <b>Country:</b>&nbsp;<span class="show-info-txt">{{
-      showDetails.network.country.name
-    }}</span>
+                        showDetails.network.country.name
+                        }}</span>
                     </p>
                     <p v-if="showDetails?.network?.name" class="mx-3">
                       <b>Network:</b>&nbsp;<span class="show-info-txt">{{
-      showDetails.network.name
-    }}</span>
+                        showDetails.network.name
+                        }}</span>
                     </p>
                     <p v-if="showDetails?.network?.country" class="mx-3">
                       <b>Days:</b>&nbsp;<v-chip tile class="mr-1" small color="orange"
@@ -35,28 +35,28 @@
                     </p>
                     <p v-if="showDetails?.network?.country" class="mx-3">
                       <b>Time:</b>&nbsp;<span class="show-info-txt">{{
-      showDetails.schedule.time
-    }}</span>
+                        showDetails.schedule.time
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Language:</b>&nbsp;<span class="show-info-txt">{{
-        showDetails.language
-      }}</span>
+                        showDetails.language
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Status:</b>&nbsp;<span class="show-info-txt">{{
-        showDetails.status
-      }}</span>
+                        showDetails.status
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Show type:</b>&nbsp;<span class="show-info-txt">{{
-        showDetails.type
-      }}</span>
+                        showDetails.type
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Premiered:</b>&nbsp;<span class="show-info-txt">{{
-        showDetails.premiered
-      }}</span>
+                        showDetails.premiered
+                        }}</span>
                     </p>
                     <p class="mx-3">
                       <b>Run time:</b>&nbsp;<span class="show-info-txt">{{ showDetails.runtime }}&nbsp;min</span>
@@ -93,10 +93,10 @@
                   <div class="pt-2">
                     <v-icon color="orange" dark> mdi-star </v-icon>
                     {{
-      item.rating.average
-        ? (item.rating.average / 2).toFixed(1)
-        : 0
-    }}/5
+                    item.rating.average
+                    ? (item.rating.average / 2).toFixed(1)
+                    : 0
+                    }}/5
                   </div>
                 </template>
               </v-data-table>
@@ -113,13 +113,14 @@
         </v-row>
         <v-col class="pl-0 mt-2" v-if="castDetail.length > 6" cols="12">
           <v-btn @click="viewMoreLessCast()" class="primary--text" small text type="text"><b>{{
-      enableViewCastButton ? "show more casts..." : "show less casts..."
-    }}</b></v-btn>
+              enableViewCastButton ? "show more casts..." : "show less casts..."
+              }}</b></v-btn>
         </v-col>
       </v-col>
     </v-row>
     <v-row v-else justify="space-between space-around">
       <v-col class="center-text">
+        <v-progress-circular color="primary" :size="70" :width="7" indeterminate></v-progress-circular>
         <h2>Loading in progress ...</h2>
       </v-col>
     </v-row>
@@ -127,7 +128,7 @@
 </template>
 <script setup>
 import { ref, computed } from 'vue';
-import { useTvStore } from '@/stores/tvStore'
+import { useTvStore } from '@/stores/tvShowsListStore'
 import { useRouter, useRoute } from 'vue-router'
 import SeriesService from "@/seriesService/tv-service.js";
 import ShowCard from "@/components/ShowCard.vue";

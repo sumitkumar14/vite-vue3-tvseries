@@ -168,17 +168,17 @@ function backClick() {
 
 /* get api call to fetch the episodes of tv series */
 function detailsfShow() {
-  store.startLoading();
+  store.loading = true;
   SeriesService1.seriesDetails(seriesId.value)
     .then((response) => {
       showDetails.value = response.data;
-      store.setTvSeriesName(showDetails.value.name);
+      store.tvSeriesName = showDetails.value.name;
     })
     .catch((error) => {
       console.log(error);
     })
     .finally(() => {
-      store.stopLoading();
+      store.loading = false;
     });
 };
 

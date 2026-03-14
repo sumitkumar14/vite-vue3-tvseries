@@ -26,7 +26,7 @@
           <div class="summary-div" v-html="showDetails.summary"></div>
         </v-card>
 
-        <!-- Info -->
+        <!-- Show Info -->
         <v-card class="pa-4">
           <v-card-title>Show Information</v-card-title>
 
@@ -111,7 +111,7 @@
       </v-col>
     </v-row>
 
-    <!-- Episodes Section -->
+    <!-- Episodes -->
     <v-row class="mt-6">
 
       <v-col cols="12">
@@ -129,21 +129,33 @@
             class="elevation-1"
           >
 
-            <!-- Episode Name + Image -->
+            <!-- Episode Name + Image (Clickable) -->
             <template v-slot:item.name="{ item }">
 
               <div class="d-flex align-center">
 
-                <v-img
-                  :src="item.image?.medium"
-                  width="80"
-                  height="60"
-                  class="mr-3"
-                />
+                <a
+                  :href="item.url"
+                  target="_blank"
+                  class="episode-link"
+                >
 
-                <div>
+                  <v-img
+                    :src="item.image?.medium"
+                    width="80"
+                    height="60"
+                    class="mr-3"
+                  />
+
+                </a>
+
+                <a
+                  :href="item.url"
+                  target="_blank"
+                  class="episode-link"
+                >
                   <b>{{ item.name }}</b>
-                </div>
+                </a>
 
               </div>
 
@@ -170,7 +182,7 @@
 
     </v-row>
 
-    <!-- Cast Section -->
+    <!-- Cast -->
     <v-row class="mt-6">
 
       <v-col cols="12">
@@ -227,10 +239,10 @@
 
 <script setup>
 
-import { ref, computed } from 'vue'
-import { useTvStore } from '@/stores/tvShowsListStore'
-import { useTvShowDetailsStore } from '@/stores/tvShowDetailsStore'
-import { useRouter, useRoute } from 'vue-router'
+import { ref, computed } from "vue"
+import { useTvStore } from "@/stores/tvShowsListStore"
+import { useTvShowDetailsStore } from "@/stores/tvShowDetailsStore"
+import { useRouter, useRoute } from "vue-router"
 
 import ShowCard from "@/components/ShowCard.vue"
 import CharactorCard from "@/components/CharactorCard.vue"
@@ -300,6 +312,12 @@ store1.getEpisodes(seriesId.value)
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
+}
+
+.episode-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .center-text {
